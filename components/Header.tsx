@@ -159,6 +159,11 @@ const Header: React.FC = () => {
         <button onClick={() => signOut()}>
           <a>Log out</a>
         </button>
+        <Link href="/profil">
+          <button>
+            <a>Profil</a>
+          </button>
+        </Link>
         <style jsx>{`
           a {
             text-decoration: none;

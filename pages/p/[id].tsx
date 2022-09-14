@@ -1,6 +1,6 @@
 // pages/p/[id].tsx
 
-import React from 'react';
+import React,{ useState } from 'react';
 import { GetServerSideProps } from 'next';
 import ReactMarkdown from 'react-markdown';
 import Router from 'next/router';
@@ -8,6 +8,8 @@ import Layout from '../../components/Layout';
 import { PostProps } from '../../components/Post';
 import { useSession } from 'next-auth/react';
 import prisma from '../../lib/prisma';
+
+
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
@@ -41,6 +43,17 @@ async function deletePost(id: string): Promise<void> {
 
 const Post: React.FC<PostProps> = (props) => {
   const { data: session, status } = useSession();
+  const [content, setContent] = useState('');
+
+  async function publishComment(id: string): Promise<void> {
+    const body = { content,id };
+    await fetch(`/api/comment/}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+  }
+
   if (status === 'loading') {
     return <div>Authenticating ...</div>;
   }
@@ -53,7 +66,7 @@ const Post: React.FC<PostProps> = (props) => {
 
   return (
     <Layout>
-      <div>
+      <div className="test">
         <h2>{title}</h2>
         <p>By {props?.author?.name || 'Unknown author'}</p>
         <ReactMarkdown children={props.content} />
@@ -65,6 +78,14 @@ const Post: React.FC<PostProps> = (props) => {
         {
           userHasValidSession && postBelongsToUser && (
             <button onClick={() => deletePost(props.id)}>Delete</button>
+          )
+        }
+        {
+          userHasValidSession && (
+            <>
+              <button onClick={() => publishComment(props.id)}>Comment</button>
+              <input onChange={(e) => setContent(e.target.value)} value={content} type="text"></input>
+            </>
           )
         }
         
@@ -88,6 +109,11 @@ const Post: React.FC<PostProps> = (props) => {
 
         button + button {
           margin-left: 1rem;
+        }
+
+        .test{
+          background : #ddd;
+          padding:5px;
         }
       `}</style>
     </Layout>
