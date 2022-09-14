@@ -1,40 +1,34 @@
 // pages/create.tsx
 
-import React, { useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import Router from 'next/router';
-import { useSession,getSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
-const Draft: React.FC = () => {
-    const [name, setName] = useState('');
-    const [mail, setMail] = useState('');
+
+const Draft: React.FC = (props) => {
     const { data: session, status } = useSession();
-    console.log(session);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState('');
 
-    const submitData = async (e: React.SyntheticEvent) => {
-        e.preventDefault();
-        try {
-          const body = { name, mail };
-          await fetch('/api/post', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-          });
-          await Router.push('/drafts');
-        } catch (error) {
-          console.error(error);
-        }
-      };
+      async function submitData(e: FormEvent): Promise<void> {
+        e.preventDefault()
+        const res = await fetch(`/api/profil/edit`, {
+          method: 'PUT',
+          headers: new Headers({"Content-Type":"application/json"}),
+          body:JSON.stringify({email,name})
+        });
+        
+      }
 
       useEffect(()=>{
         setName(session?.user?.name)
-        setMail(session?.user?.email)
+        setEmail(session?.user?.email)
       },[session])
 
   return (
     <Layout>
-      <div>
-        <form onSubmit={submitData}>
+      <form onSubmit={e=>submitData(e)}>
           <h1>My profil</h1>
           <input
             autoFocus
@@ -47,15 +41,14 @@ const Draft: React.FC = () => {
             autoFocus
             placeholder="Adresse mail"
             type="text"
-            value={mail}
-            onChange={(e) => setMail(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          <input type="submit" value="Submit" />
+          <button onClick={submitData}>Submit</button>
           <a className="back" href="#" onClick={() => Router.push('/')}>
             or Cancel
           </a>
-        </form>
-      </div>
+      </form>
       <style jsx>{`
         .page {
           background: var(--geist-background);

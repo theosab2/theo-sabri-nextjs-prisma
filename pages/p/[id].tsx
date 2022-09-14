@@ -1,5 +1,3 @@
-// pages/p/[id].tsx
-
 import React,{ useState } from 'react';
 import { GetServerSideProps } from 'next';
 import ReactMarkdown from 'react-markdown';
@@ -8,8 +6,6 @@ import Layout from '../../components/Layout';
 import { PostProps } from '../../components/Post';
 import { useSession } from 'next-auth/react';
 import prisma from '../../lib/prisma';
-
-
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
@@ -81,14 +77,13 @@ const Post: React.FC<PostProps> = (props) => {
           )
         }
         {
-          userHasValidSession && (
+          userHasValidSession && props.published &&(
             <>
               <button onClick={() => publishComment(props.id)}>Comment</button>
               <input onChange={(e) => setContent(e.target.value)} value={content} type="text"></input>
             </>
           )
         }
-        
       </div>
       <style jsx>{`
         .page {
