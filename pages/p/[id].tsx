@@ -6,6 +6,8 @@ import Layout from '../../components/Layout';
 import { PostProps } from '../../components/Post';
 import { useSession } from 'next-auth/react';
 import prisma from '../../lib/prisma';
+import { CommentProps } from '../../components/Comment';
+import Comment from '../../components/Comment';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
@@ -18,8 +20,22 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       },
     },
   });
+
+  const comment = await prisma.comment.findMany({
+    where: {
+      postId: String(params?.id),
+    },
+    include: {
+      author: {
+        select: { name: true, email: true },
+      },
+    },
+  });
+  console.log(comment)
+  let comments = JSON.parse(JSON.stringify(comment))
+
   return {
-    props: post,
+    props: {post, comments},
   };
 };
 
@@ -37,29 +53,35 @@ async function deletePost(id: string): Promise<void> {
   Router.push('/');
 }
 
-const Post: React.FC<PostProps> = (props) => {
+type Props = {
+  post : PostProps,
+  comments : CommentProps[]
+}
+
+const Post: React.FC<Props> = (props) => {
   const { data: session, status } = useSession();
   const [content, setContent] = useState('');
-  console.log(props.id);
   
   async function publishComment(e:FormEvent): Promise<void> {
     e.preventDefault();
-    let id = props.id;
+    let id = props.post.id;
     const body = { content,id };
     await fetch(`/api/comment`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
+    setContent("");
+    Router.push(`/p/${props.post.id}`)
   }
 
   if (status === 'loading') {
     return <div>Authenticating ...</div>;
   }
   const userHasValidSession = Boolean(session);
-  const postBelongsToUser = session?.user?.email === props.author?.email;
-  let title = props.title;
-  if (!props.published) {
+  const postBelongsToUser = session?.user?.email === props.post.author?.email;
+  let title = props.post.title;
+  if (!props.post.published) {
     title = `${title} (Draft)`;
   }
 
@@ -67,20 +89,20 @@ const Post: React.FC<PostProps> = (props) => {
     <Layout>
       <div className="test">
         <h2>{title}</h2>
-        <p>By {props?.author?.name || 'Unknown author'}</p>
-        <ReactMarkdown children={props.content} />
+        <p>By {props?.post?.author?.name || 'Unknown author'}</p>
+        <ReactMarkdown children={props.post.content} />
         {
-        !props.published && userHasValidSession && postBelongsToUser && (
-          <button onClick={() => publishPost(props.id)}>Publish</button>
+        !props.post.published && userHasValidSession && postBelongsToUser && (
+          <button onClick={() => publishPost(props.post.id)}>Publish</button>
         )
         }
         {
           userHasValidSession && postBelongsToUser && (
-            <button onClick={() => deletePost(props.id)}>Delete</button>
+            <button onClick={() => deletePost(props.post.id)}>Delete</button>
           )
         }
         {
-          userHasValidSession && props.published &&(
+          userHasValidSession && props.post.published &&(
             <>
               <button onClick={publishComment}>Comment</button>
               <br></br>
@@ -88,6 +110,11 @@ const Post: React.FC<PostProps> = (props) => {
             </>
           )
         }
+        <div>
+          {props?.comments?.map((comment) => {
+                return <Comment comment={comment}  key={comment.id}/>;
+          })}
+        </div>
       </div>
       <style jsx>{`
         .page {
@@ -120,3 +147,5 @@ const Post: React.FC<PostProps> = (props) => {
 };
 
 export default Post;
+
+
