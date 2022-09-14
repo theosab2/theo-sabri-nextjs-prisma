@@ -140,6 +140,7 @@ const Post: React.FC<Props> = (props) => {
         .test{
           background : #ddd;
           padding:5px;
+          
         }
       `}</style>
     </Layout>

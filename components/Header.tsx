@@ -27,7 +27,15 @@ const Header: React.FC = () => {
           text-decoration: none;
           color: var(--geist-foreground);
           display: inline-block;
-        }
+          font-size: 15px;
+          border: 1px #000 solid;
+            padding:10px;
+            border-radius:5px;
+          }
+          a:hover {
+            background-color:#000;
+            color:#fff;
+          }
 
         .left a[data-active='true'] {
           color: gray;
@@ -59,6 +67,14 @@ const Header: React.FC = () => {
             text-decoration: none;
             color: var(--geist-foreground);
             display: inline-block;
+            font-size: 15px;
+            border: 1px #000 solid;
+            padding:10px;
+            border-radius:5px;
+          }
+          a:hover {
+            background-color:#000;
+            color:#fff;
           }
 
           .left a[data-active='true'] {
@@ -94,6 +110,14 @@ const Header: React.FC = () => {
             text-decoration: none;
             color: var(--geist-foreground);
             display: inline-block;
+            font-size: 15px;
+            border: 1px #000 solid;
+            padding:10px;
+            border-radius:5px;
+          }
+          a:hover {
+            background-color:#000;
+            color:#fff;
           }
 
           a + a {
@@ -134,6 +158,14 @@ const Header: React.FC = () => {
             text-decoration: none;
             color: var(--geist-foreground);
             display: inline-block;
+            font-size: 15px;
+            border: 1px #000 solid;
+            padding:10px;
+            border-radius:5px;
+          }
+          a:hover {
+            background-color:#000;
+            color:#fff;
           }
 
           .left a[data-active='true'] {
@@ -165,20 +197,34 @@ const Header: React.FC = () => {
           </button>
         </Link>
         <style jsx>{`
+          Link{
+            font:20;
+          }
+
           a {
             text-decoration: none;
             color: var(--geist-foreground);
             display: inline-block;
+            font-size: 17px;
+            border: 1px #000 solid;
+            padding:10px;
+            border-radius:5px;
+          }
+
+          a:hover {
+            background-color:#000;
+            color:#fff;
           }
 
           p {
             display: inline-block;
-            font-size: 13px;
+            font-size: 15px;
             padding-right: 1rem;
           }
 
           a + a {
             margin-left: 1rem;
+            
           }
 
           .right {
@@ -192,7 +238,12 @@ const Header: React.FC = () => {
           }
 
           button {
-            border: none;
+            margin: 5px
+          }
+
+          button:hover {
+            background-color:#000;
+            color:#fff;
           }
         `}</style>
       </div>
