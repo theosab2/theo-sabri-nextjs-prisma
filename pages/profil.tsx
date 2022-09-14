@@ -18,7 +18,7 @@ const Draft: React.FC = (props) => {
           headers: new Headers({"Content-Type":"application/json"}),
           body:JSON.stringify({email,name})
         });
-        
+        Router.push(`/profil`)
       }
 
       useEffect(()=>{
@@ -29,7 +29,7 @@ const Draft: React.FC = (props) => {
   return (
     <Layout>
       <form onSubmit={e=>submitData(e)}>
-          <h1>My profil</h1>
+          <h1>Mon profil</h1>
           <input
             autoFocus
             placeholder="Pseudo"
@@ -44,9 +44,9 @@ const Draft: React.FC = (props) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <button onClick={submitData}>Submit</button>
+          <button onClick={submitData}>Modifier</button>
           <a className="back" href="#" onClick={() => Router.push('/')}>
-            or Cancel
+            Annuler
           </a>
       </form>
       <style jsx>{`
@@ -56,6 +56,22 @@ const Draft: React.FC = (props) => {
           display: flex;
           justify-content: center;
           align-items: center;
+        }
+
+        button{
+          font-size:17px;
+          background: none;
+          border-radius: 5px;
+          padding: 10px;
+        }
+
+        form{
+          background-color:#fff;
+          padding: 10px;
+          width:50rem;
+          margin:0 auto;
+          border-radius: 5px;
+          box-shadow: 1px 1px 10px #aaa
         }
 
         input[type='text'],

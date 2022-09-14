@@ -42,9 +42,9 @@ const Draft: React.FC = () => {
             rows={8}
             value={content}
           />
-          <input disabled={!content || !title} type="submit" value="Create" />
+          <input disabled={!content || !title} type="submit" value="Créer" />
           <a className="back" href="#" onClick={() => Router.push('/')}>
-            or Cancel
+            Annuler
           </a>
         </form>
       </div>
@@ -55,6 +55,15 @@ const Draft: React.FC = () => {
           display: flex;
           justify-content: center;
           align-items: center;
+        }
+
+        div{
+          width:50rem;
+          margin: 0 auto;
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 5px;
+          box-shadow: 1px 1px 10px #aaa;
         }
 
         input[type='text'],

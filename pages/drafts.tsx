@@ -40,8 +40,8 @@ const Drafts: React.FC<Props> = (props) => {
   if (!session) {
     return (
       <Layout>
-        <h1>My Drafts</h1>
-        <div>You need to be authenticated to view this page.</div>
+        <h1>Brouillion</h1>
+        <div>Vous devez être authentifié pour voir cette page.</div>
       </Layout>
     );
   }
@@ -49,7 +49,7 @@ const Drafts: React.FC<Props> = (props) => {
   return (
     <Layout>
       <div className="page">
-        <h1>My Drafts</h1>
+        <h1>Brouillion</h1>
         <main>
           {props.drafts.map((post) => (
             <div key={post.id} className="post">
@@ -61,9 +61,23 @@ const Drafts: React.FC<Props> = (props) => {
       <style jsx>{`
         .post {
           background: #333;
-          
+          width:30rem;
           color: #fff;
           transition: box-shadow 0.1s ease-in;
+          display:flex;
+          justify-content:center;
+          cursor:pointer
+        }
+
+        .post:hover{
+          background: #ddd;
+          color: #333;
+        }
+
+        div{
+          display:flex;
+          flex-direction:column;
+          align-items:center;
         }
 
         .post:hover {
