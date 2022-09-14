@@ -76,7 +76,7 @@ const Post: React.FC<Props> = (props) => {
   }
 
   if (status === 'loading') {
-    return <div>Authenticating ...</div>;
+    return <div>Authentification ...</div>;
   }
   const userHasValidSession = Boolean(session);
   const postBelongsToUser = session?.user?.email === props.post.author?.email;
@@ -93,18 +93,18 @@ const Post: React.FC<Props> = (props) => {
         <ReactMarkdown children={props.post.content} />
         {
         !props.post.published && userHasValidSession && postBelongsToUser && (
-          <button onClick={() => publishPost(props.post.id)}>Publish</button>
+          <button onClick={() => publishPost(props.post.id)}>Publier</button>
         )
         }
         {
           userHasValidSession && postBelongsToUser && (
-            <button onClick={() => deletePost(props.post.id)}>Delete</button>
+            <button onClick={() => deletePost(props.post.id)}>Supprimer</button>
           )
         }
         {
           userHasValidSession && props.post.published &&(
             <>
-              <button onClick={publishComment}>Comment</button>
+              <button onClick={publishComment}>Commenter</button>
               <br></br>
               <input onChange={(e) => setContent(e.target.value)} value={content} type="text"></input>
             </>

@@ -15,7 +15,7 @@ const Header: React.FC = () => {
     <div className="left">
       <Link href="/">
         <a className="bold" data-active={isActive('/')}>
-          Feed
+          Flux
         </a>
       </Link>
       <style jsx>{`
@@ -55,7 +55,7 @@ const Header: React.FC = () => {
       <div className="left">
         <Link href="/">
           <a className="bold" data-active={isActive('/')}>
-            Feed
+            Flux
           </a>
         </Link>
         <style jsx>{`
@@ -89,7 +89,7 @@ const Header: React.FC = () => {
     );
     right = (
       <div className="right">
-        <p>Validating session ...</p>
+        <p>Validatinon de session ...</p>
         <style jsx>{`
           .right {
             margin-left: auto;
@@ -103,7 +103,7 @@ const Header: React.FC = () => {
     right = (
       <div className="right">
         <Link href="/api/auth/signin">
-          <a data-active={isActive('/signup')}>Log in</a>
+          <a data-active={isActive('/signup')}>Connexion</a>
         </Link>
         <style jsx>{`
           a {
@@ -143,11 +143,11 @@ const Header: React.FC = () => {
       <div className="left">
         <Link href="/">
           <a className="bold" data-active={isActive('/')}>
-            Feed
+            Flux
           </a>
         </Link>
         <Link href="/drafts">
-          <a data-active={isActive('/drafts')}>My drafts</a>
+          <a data-active={isActive('/drafts')}>Mes brouillions</a>
         </Link>
         <style jsx>{`
           .bold {
@@ -185,11 +185,11 @@ const Header: React.FC = () => {
         </p>
         <Link href="/create">
           <button>
-            <a>New post</a>
+            <a>Nouveaux posts</a>
           </button>
         </Link>
         <button onClick={() => signOut()}>
-          <a>Log out</a>
+          <a>Déconnexion</a>
         </button>
         <Link href="/profil">
           <button>
