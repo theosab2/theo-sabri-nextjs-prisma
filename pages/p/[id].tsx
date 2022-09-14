@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React,{ FormEvent, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import ReactMarkdown from 'react-markdown';
 import Router from 'next/router';
@@ -40,10 +40,13 @@ async function deletePost(id: string): Promise<void> {
 const Post: React.FC<PostProps> = (props) => {
   const { data: session, status } = useSession();
   const [content, setContent] = useState('');
-
-  async function publishComment(id: string): Promise<void> {
+  console.log(props.id);
+  
+  async function publishComment(e:FormEvent): Promise<void> {
+    e.preventDefault();
+    let id = props.id;
     const body = { content,id };
-    await fetch(`/api/comment/}`, {
+    await fetch(`/api/comment`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -79,7 +82,8 @@ const Post: React.FC<PostProps> = (props) => {
         {
           userHasValidSession && props.published &&(
             <>
-              <button onClick={() => publishComment(props.id)}>Comment</button>
+              <button onClick={publishComment}>Comment</button>
+              <br></br>
               <input onChange={(e) => setContent(e.target.value)} value={content} type="text"></input>
             </>
           )

@@ -8,7 +8,6 @@ import prisma from '../../../lib/prisma';
 // Optional fields in body: content
 export default async function handle(req, res) {
   const { title, content } = req.body;
-
   const session = await getSession({ req });
   const result = await prisma.post.create({
     data: {
