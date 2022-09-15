@@ -1,6 +1,6 @@
 // pages/drafts.tsx
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { useSession, getSession } from 'next-auth/react';
 import Layout from '../components/Layout';
@@ -34,9 +34,15 @@ type Props = {
   drafts: PostProps[];
 };
 
-const Drafts: React.FC<Props> = (props) => {
-  const { data: session } = useSession();
 
+const Drafts: React.FC<Props> = (props) => {
+  const [vsession,setVsession]= useState("");
+  const { data: session } = useSession();
+  useEffect(() => {
+    if(session){
+      setVsession(session)
+    }
+  },[session])
   if (!session) {
     return (
       <Layout>

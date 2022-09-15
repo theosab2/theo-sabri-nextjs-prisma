@@ -31,7 +31,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       },
     },
   });
-  console.log(comment)
   let comments = JSON.parse(JSON.stringify(comment))
 
   return {
