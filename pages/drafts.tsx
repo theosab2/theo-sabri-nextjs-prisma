@@ -36,7 +36,7 @@ type Props = {
 
 
 const Drafts: React.FC<Props> = (props) => {
-  const [vsession,setVsession]= useState("");
+  const [vsession,setVsession]= useState(null);
   const { data: session } = useSession();
   useEffect(() => {
     if(session){
